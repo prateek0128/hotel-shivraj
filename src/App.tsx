@@ -10,6 +10,7 @@ import { CustomCursor } from './components/common/CustomCursor';
 import { VersionSwitcher } from './components/common/VersionSwitcher';
 import { HomePage } from './pages/HomePage';
 import { HomePageV2 } from './pages/HomePageV2';
+import { HomePageV3 } from './pages/HomePageV3';
 
 // Version 1 Container (Preserved exactly as is)
 const Version1Page: React.FC = () => (
@@ -32,6 +33,8 @@ export const App: React.FC = () => {
         <Route path="/version-1" element={<Version1Page />} />
         <Route path="/v2" element={<HomePageV2 />} />
         <Route path="/version-2" element={<HomePageV2 />} />
+        <Route path="/v3" element={<HomePageV3 />} />
+        <Route path="/version-3" element={<HomePageV3 />} />
         <Route path="*" element={<Version1Page />} />
       </Routes>
       <VersionSwitcher />
