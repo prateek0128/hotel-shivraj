@@ -93,10 +93,11 @@ export const HeritageExperience: React.FC = () => {
           {experienceCards.map((card, idx) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={card.title}>
               <motion.div
-                initial={{ opacity: 0, y: 22 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.65, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                style={{ height: '100%' }}
               >
                 <HeritageFrame
                   mode="light"
@@ -121,24 +122,31 @@ export const HeritageExperience: React.FC = () => {
                   }}
                 >
                   <Box>
-                    {/* Custom Heritage Framed Icon */}
-                    <Box
-                      className="exp-icon-box"
-                      sx={{
-                        width: 52,
-                        height: 52,
-                        backgroundColor: heritageColors.charcoal.main,
-                        border: `1px solid ${heritageColors.gold.border}`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mb: 2.5,
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                      }}
+                    {/* Custom Heritage Framed Icon with delayed scale pop */}
+                    <motion.div
+                      initial={{ scale: 0.7, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.15 + idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {card.icon}
-                    </Box>
+                      <Box
+                        className="exp-icon-box"
+                        sx={{
+                          width: 52,
+                          height: 52,
+                          backgroundColor: heritageColors.charcoal.main,
+                          border: `1px solid ${heritageColors.gold.border}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mb: 2.5,
+                          transition: 'all 0.3s ease',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                        }}
+                      >
+                        {card.icon}
+                      </Box>
+                    </motion.div>
 
                     <Typography
                       variant="h5"

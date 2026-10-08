@@ -8,7 +8,7 @@ import { dishesData } from '../../data/dishes';
 import { SectionHeading } from '../common/SectionHeading';
 import { HeritageFrame } from '../common/HeritageFrame';
 import { CTAButton } from '../common/CTAButton';
-import { imageClipRevealVariants } from '../../theme/motion';
+import { luxuryEase, dividerExpandVariants } from '../../theme/motion';
 
 export const SignatureFood: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
@@ -57,13 +57,13 @@ export const SignatureFood: React.FC = () => {
             }}
           >
             <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: 'center' }}>
-              {/* Left: Dramatic Food Photography with Slow Clip-Path Reveal */}
+              {/* Left: Dramatic Food Photography with Slow Clip-Path Reveal & Explore Indicator */}
               <Grid size={{ xs: 12, md: 6 }}>
                 <motion.div
-                  variants={imageClipRevealVariants}
-                  initial="hidden"
-                  whileInView="visible"
+                  initial={{ opacity: 0, clipPath: 'inset(0% 100% 0% 0%)', scale: 1.12 }}
+                  whileInView={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
                   viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 1.15, ease: luxuryEase }}
                 >
                   <Box
                     sx={{
@@ -72,11 +72,16 @@ export const SignatureFood: React.FC = () => {
                       borderRadius: 0,
                       border: `1px solid ${heritageColors.gold.border}`,
                       boxShadow: '0 20px 40px rgba(0,0,0,0.7)',
+                      cursor: 'pointer',
                       '&:hover .signature-dish-img': {
-                        transform: 'scale(1.035)',
+                        transform: 'scale(1.04)',
                       },
                       '&:hover .dish-glow-overlay': {
-                        opacity: 0.25,
+                        opacity: 0.12,
+                      },
+                      '&:hover .dish-explore-pill': {
+                        opacity: 1,
+                        transform: 'translate(-50%, -50%) scale(1)',
                       },
                     }}
                   >
@@ -90,7 +95,7 @@ export const SignatureFood: React.FC = () => {
                         height: { xs: 300, sm: 400, md: 460 },
                         objectFit: 'cover',
                         filter: 'contrast(1.08) saturate(1.1)',
-                        transition: 'transform 0.8s cubic-bezier(0.2, 0, 0, 1)',
+                        transition: 'transform 0.4s ease',
                       }}
                     />
 
@@ -103,12 +108,37 @@ export const SignatureFood: React.FC = () => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        background: 'radial-gradient(circle at center, rgba(212, 176, 106, 0.3), transparent 70%)',
+                        backgroundColor: '#C39A52',
                         opacity: 0,
                         transition: 'opacity 0.4s ease',
                         pointerEvents: 'none',
                       }}
                     />
+
+                    {/* Desktop Hover Explore Pill */}
+                    <Box
+                      className="dish-explore-pill"
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%) scale(0.9)',
+                        opacity: 0,
+                        transition: 'all 0.3s cubic-bezier(0.2, 1, 0.3, 1)',
+                        px: 2.2,
+                        py: 0.8,
+                        backgroundColor: 'rgba(12, 10, 9, 0.85)',
+                        border: `1px solid ${heritageColors.gold.highlight}`,
+                        backdropFilter: 'blur(8px)',
+                        color: heritageColors.gold.pale,
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.15em',
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      EXPLORE DISH
+                    </Box>
 
                     <Chip
                       icon={<StarIcon sx={{ color: '#000 !important', fontSize: 16 }} />}
@@ -133,97 +163,126 @@ export const SignatureFood: React.FC = () => {
 
               {/* Right: The Akkha Masoor Story & Staggered Details */}
               <Grid size={{ xs: 12, md: 6 }}>
-                <motion.div
-                  initial={{ opacity: 0, x: 25 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      color: heritageColors.gold.highlight,
-                      letterSpacing: '0.18em',
-                      fontSize: '0.8rem',
-                      fontWeight: 700,
-                      mb: 1,
-                    }}
+                <Box>
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.65, delay: 0.1, ease: luxuryEase }}
                   >
-                    KARAD'S MOST ICONIC DELICACY
-                  </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        color: heritageColors.gold.highlight,
+                        letterSpacing: '0.18em',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        mb: 1,
+                      }}
+                    >
+                      KARAD'S MOST ICONIC DELICACY
+                    </Typography>
+                  </motion.div>
 
-                  <Typography
-                    variant="h2"
-                    sx={{
-                      color: heritageColors.parchment.pure,
-                      fontSize: { xs: '2rem', sm: '2.6rem', md: '3.2rem' },
-                      fontWeight: 800,
-                      lineHeight: 1.15,
-                      mb: 1,
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: 0.22, ease: luxuryEase }}
                   >
-                    {akkhaMasoor.name}
-                  </Typography>
+                    <Typography
+                      variant="h2"
+                      sx={{
+                        color: heritageColors.parchment.pure,
+                        fontSize: { xs: '2rem', sm: '2.6rem', md: '3.2rem' },
+                        fontWeight: 800,
+                        lineHeight: 1.15,
+                        mb: 1,
+                      }}
+                    >
+                      {akkhaMasoor.name}
+                    </Typography>
 
-                  <Typography
-                    component="p"
-                    sx={{
-                      fontFamily: '"Cormorant Garamond", Georgia, serif',
-                      fontStyle: 'italic',
-                      fontSize: { xs: '1.35rem', sm: '1.6rem' },
-                      color: heritageColors.gold.pale,
-                      fontWeight: 600,
-                      mb: 2.5,
+                    <Typography
+                      component="p"
+                      sx={{
+                        fontFamily: '"Cormorant Garamond", Georgia, serif',
+                        fontStyle: 'italic',
+                        fontSize: { xs: '1.35rem', sm: '1.6rem' },
+                        color: heritageColors.gold.pale,
+                        fontWeight: 600,
+                        mb: 2,
+                      }}
+                    >
+                      {akkhaMasoor.marathiName}
+                    </Typography>
+                  </motion.div>
+
+                  {/* Gold divider expansion */}
+                  <motion.div
+                    variants={dividerExpandVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    style={{
+                      height: 2,
+                      backgroundColor: heritageColors.gold.highlight,
+                      marginBottom: 20,
                     }}
-                  >
-                    {akkhaMasoor.marathiName}
-                  </Typography>
+                  />
 
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: heritageColors.parchment.stone,
-                      fontSize: { xs: '0.95rem', sm: '1.05rem' },
-                      lineHeight: 1.8,
-                      mb: 3.5,
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.65, delay: 0.38, ease: luxuryEase }}
                   >
-                    {akkhaMasoor.description}
-                  </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: heritageColors.parchment.stone,
+                        fontSize: { xs: '0.95rem', sm: '1.05rem' },
+                        lineHeight: 1.8,
+                        mb: 3.5,
+                      }}
+                    >
+                      {akkhaMasoor.description}
+                    </Typography>
 
-                  {/* Traditional Highlights */}
-                  <Grid container spacing={2} sx={{ mb: 4 }}>
-                    <Grid size={6}>
-                      <Box sx={{ p: 1.8, borderLeft: `2px solid ${heritageColors.gold.main}`, backgroundColor: 'rgba(255,255,255,0.04)' }}>
-                        <Typography variant="caption" sx={{ color: heritageColors.gold.highlight, display: 'block', fontWeight: 700, letterSpacing: '0.05em' }}>
-                          TRADITIONAL PAIRING
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: heritageColors.parchment.light, fontSize: '0.85rem', mt: 0.5 }}>
-                          Hot Jowar Bhakri &amp; Earthen Matka Dahi
-                        </Typography>
-                      </Box>
+                    {/* Traditional Highlights */}
+                    <Grid container spacing={2} sx={{ mb: 4 }}>
+                      <Grid size={6}>
+                        <Box sx={{ p: 1.8, borderLeft: `2px solid ${heritageColors.gold.main}`, backgroundColor: 'rgba(255,255,255,0.04)' }}>
+                          <Typography variant="caption" sx={{ color: heritageColors.gold.highlight, display: 'block', fontWeight: 700, letterSpacing: '0.05em' }}>
+                            TRADITIONAL PAIRING
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: heritageColors.parchment.light, fontSize: '0.85rem', mt: 0.5 }}>
+                            Hot Jowar Bhakri &amp; Earthen Matka Dahi
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid size={6}>
+                        <Box sx={{ p: 1.8, borderLeft: `2px solid ${heritageColors.gold.main}`, backgroundColor: 'rgba(255,255,255,0.04)' }}>
+                          <Typography variant="caption" sx={{ color: heritageColors.gold.highlight, display: 'block', fontWeight: 700, letterSpacing: '0.05em' }}>
+                            COOKING VESSEL
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: heritageColors.parchment.light, fontSize: '0.85rem', mt: 0.5 }}>
+                            Slow-simmered in Heavy Brass Handis
+                          </Typography>
+                        </Box>
+                      </Grid>
                     </Grid>
-                    <Grid size={6}>
-                      <Box sx={{ p: 1.8, borderLeft: `2px solid ${heritageColors.gold.main}`, backgroundColor: 'rgba(255,255,255,0.04)' }}>
-                        <Typography variant="caption" sx={{ color: heritageColors.gold.highlight, display: 'block', fontWeight: 700, letterSpacing: '0.05em' }}>
-                          COOKING VESSEL
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: heritageColors.parchment.light, fontSize: '0.85rem', mt: 0.5 }}>
-                          Slow-simmered in Heavy Brass Handis
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
 
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <CTAButton variantType="gold-filled" href="#branches">
-                      Taste at Nearest Branch
-                    </CTAButton>
-                    <CTAButton variantType="gold-outlined" href="#branches">
-                      Explore All Outlets
-                    </CTAButton>
-                  </Stack>
-                </motion.div>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                      <CTAButton variantType="gold-filled" href="#branches">
+                        Taste at Nearest Branch
+                      </CTAButton>
+                      <CTAButton variantType="gold-outlined" href="#branches">
+                        Explore All Outlets
+                      </CTAButton>
+                    </Stack>
+                  </motion.div>
+                </Box>
               </Grid>
             </Grid>
           </HeritageFrame>
@@ -276,10 +335,11 @@ export const SignatureFood: React.FC = () => {
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={dish.id}>
                   <motion.div
                     layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, delay: idx * 0.06 }}
+                    transition={{ duration: 0.65, delay: idx * 0.12, ease: luxuryEase }}
                   >
                     <Box
                       sx={{
@@ -289,14 +349,14 @@ export const SignatureFood: React.FC = () => {
                         backgroundColor: 'rgba(23, 18, 14, 0.75)',
                         border: '1px solid rgba(176, 138, 69, 0.22)',
                         backdropFilter: 'blur(8px)',
-                        transition: 'all 0.3s cubic-bezier(0.2, 0, 0, 1)',
+                        transition: 'all 0.35s cubic-bezier(0.2, 0, 0, 1)',
                         position: 'relative',
                         '&:hover': {
-                          transform: 'translateY(-4px)',
-                          borderColor: heritageColors.gold.highlight,
-                          boxShadow: '0 16px 36px rgba(0,0,0,0.6)',
+                          transform: 'translateY(-6px)',
+                          borderColor: 'rgba(212, 176, 106, 0.7)',
+                          boxShadow: '0 16px 36px rgba(0,0,0,0.5)',
                           '& .dish-img': {
-                            transform: 'scale(1.03)',
+                            transform: 'scale(1.04)',
                           },
                           '& .dish-card-icon': {
                             transform: 'translateX(4px)',

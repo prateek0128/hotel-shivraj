@@ -7,34 +7,32 @@ import {
   Stack,
   Tabs,
   Tab,
-  IconButton,
+  Button,
   Dialog,
   DialogTitle,
   DialogContent,
+  IconButton,
   TextField,
   InputAdornment,
   Chip,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+import DirectionsIcon from '@mui/icons-material/Directions';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { heritageColors } from '../../theme/colors';
-import { branchesData } from '../../data/branches';
-import type { Branch, BranchRegion } from '../../types';
-import { SectionHeading } from '../common/SectionHeading';
-import { HeritageFrame } from '../common/HeritageFrame';
-import { CTAButton } from '../common/CTAButton';
+import { v2Colors } from '../../../theme/v2/colors';
+import { v2SectionReveal } from '../../../theme/v2/motion';
+import { branchesData } from '../../../data/branches';
+import type { Branch, BranchRegion } from '../../../types';
 
-export const BranchesPreview: React.FC = () => {
+export const BranchesV2: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>('All');
   const [allBranchesOpen, setAllBranchesOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Featured branches on the homepage
   const featuredBranches = branchesData.filter((b) => b.isFlagship);
 
   const displayedBranches: Branch[] =
@@ -42,7 +40,6 @@ export const BranchesPreview: React.FC = () => {
       ? featuredBranches
       : branchesData.filter((b) => b.region === (selectedRegion as BranchRegion));
 
-  // Search filter inside the modal
   const modalFilteredBranches = branchesData.filter((b) => {
     const q = searchQuery.toLowerCase();
     return (
@@ -55,43 +52,83 @@ export const BranchesPreview: React.FC = () => {
 
   return (
     <Box
-      id="branches"
+      id="v2-branches"
       sx={{
-        py: { xs: 8, md: 12 },
-        backgroundColor: heritageColors.parchment.main,
+        py: { xs: 10, md: 16 },
+        backgroundColor: v2Colors.obsidian.surface,
         position: 'relative',
-        overflow: 'hidden',
+        borderTop: `1px solid ${v2Colors.gold.hairline}`,
+        borderBottom: `1px solid ${v2Colors.gold.hairline}`,
       }}
     >
-      {/* Decorative Maharashtra Highway Corridor Motif */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          opacity: 0.035,
-          pointerEvents: 'none',
-          backgroundImage: `
-            radial-gradient(circle at 75% 40%, rgba(74, 23, 24, 0.5) 0%, transparent 60%),
-            radial-gradient(circle at 25% 70%, rgba(176, 138, 69, 0.5) 0%, transparent 60%)
-          `,
-        }}
-      />
+      <Container maxWidth="xl">
+        {/* Section Header */}
+        <Box sx={{ textAlign: 'center', maxWidth: 840, mx: 'auto', mb: { xs: 8, md: 10 } }}>
+          <motion.div
+            variants={v2SectionReveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+          >
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: v2Colors.gold.antique,
+                letterSpacing: '0.24em',
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                mb: 1.5,
+              }}
+            >
+              ROYAL EXPANSION ACROSS MAHARASHTRA
+            </Typography>
 
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2 }}>
-        <SectionHeading
-          eyebrow="EXPANDING OUR ROOTS"
-          marathiEyebrow="शाखा विस्तार"
-          title="Find Us Across Maharashtra"
-          marathiTitle="“कोकणापासून ते राजधानी मुंबईपर्यंत — खवय्यांच्या सेवेत तत्पर”"
-          subtitle="From our historic foundation on the Karad-Chiplun highway to vibrant dining destinations across Pune, Mumbai, Satara, and Sangli."
-          mode="light"
-        />
+            <Typography
+              variant="h2"
+              sx={{
+                fontFamily: '"Cinzel", Georgia, serif',
+                fontWeight: 900,
+                fontSize: { xs: '2.2rem', sm: '3.4rem', md: '4.2rem' },
+                letterSpacing: '0.03em',
+                color: v2Colors.ivory.warm,
+                lineHeight: 1.05,
+                mb: 1.5,
+                textTransform: 'uppercase',
+              }}
+            >
+              The Royal House Across Maharashtra
+            </Typography>
 
-        {/* Region Filter Tabs with Smooth Active Indicator */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
+            <Typography
+              component="p"
+              sx={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontStyle: 'italic',
+                fontSize: { xs: '1.25rem', sm: '1.55rem' },
+                color: v2Colors.gold.champagne,
+                fontWeight: 600,
+                mb: 2,
+              }}
+            >
+              “कराड, पुणे, मुंबई, सांगली व साताऱ्यापर्यंत पसरलेला खवय्यांचा विश्वास”
+            </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                color: v2Colors.text.secondaryLight,
+                fontSize: '1rem',
+                lineHeight: 1.8,
+              }}
+            >
+              Starting from the iconic Highway AC flagship in Karad to bustling metropolitan hubs across Pune and Mumbai,
+              discover royal hospitality wherever your journeys lead you.
+            </Typography>
+          </motion.div>
+        </Box>
+
+        {/* Region Filter Tabs */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
           <Tabs
             value={selectedRegion}
             onChange={(_, val) => setSelectedRegion(val)}
@@ -99,24 +136,23 @@ export const BranchesPreview: React.FC = () => {
             scrollButtons="auto"
             sx={{
               '& .MuiTabs-indicator': {
-                backgroundColor: heritageColors.maroon.main,
+                backgroundColor: v2Colors.gold.champagne,
                 height: 2,
-                transition: 'all 0.3s cubic-bezier(0.2, 0, 0, 1)',
               },
               '& .MuiTab-root': {
-                color: heritageColors.text.secondaryDark,
-                fontFamily: '"Cinzel", Georgia, serif',
-                fontSize: '0.85rem',
-                letterSpacing: '0.06em',
-                px: { xs: 2, sm: 2.8 },
+                color: v2Colors.ivory.muted,
+                fontFamily: '"Manrope", sans-serif',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                px: { xs: 2, sm: 3 },
                 py: 1.2,
-                transition: 'all 0.25s ease',
                 '&.Mui-selected': {
-                  color: heritageColors.maroon.main,
+                  color: v2Colors.gold.champagne,
                   fontWeight: 700,
                 },
                 '&:hover': {
-                  color: heritageColors.maroon.rich,
+                  color: v2Colors.gold.pale,
                 },
               },
             }}
@@ -130,38 +166,37 @@ export const BranchesPreview: React.FC = () => {
           </Tabs>
         </Box>
 
-        {/* Branches Grid with Lift on Hover */}
-        <Grid container spacing={{ xs: 3, md: 3.5 }} sx={{ mb: 6 }}>
+        {/* Luxury Branch Cards Grid */}
+        <Grid container spacing={3.5} sx={{ mb: 7 }}>
           <AnimatePresence>
             {displayedBranches.map((branch, idx) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={branch.id}>
                 <motion.div
                   layout
                   initial={{ opacity: 0, y: 50 + (idx % 3) * 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: idx * 0.08 }}
+                  whileHover={{ y: -5, transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] } }}
                 >
-                  <HeritageFrame
-                    mode="light"
-                    padding={3}
+                  <Box
                     sx={{
+                      p: 3.5,
                       height: '100%',
+                      backgroundColor: 'rgba(12, 10, 9, 0.75)',
+                      border: `1px solid ${v2Colors.gold.hairline}`,
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      backgroundColor: '#FFFFFF',
-                      border: '1px solid rgba(176, 138, 69, 0.22)',
-                      transition: 'all 0.3s cubic-bezier(0.2, 0, 0, 1)',
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                      position: 'relative',
                       '&:hover': {
-                        transform: 'translateY(-5px)',
-                        borderColor: heritageColors.gold.main,
-                        boxShadow: '0 16px 36px rgba(23, 18, 14, 0.08)',
+                        borderColor: v2Colors.gold.champagne,
+                        boxShadow: '0 16px 36px rgba(0, 0, 0, 0.8)',
                         '& .branch-loc-icon': {
                           transform: 'scale(1.1)',
                         },
-                        '& .branch-directions-icon': {
+                        '& .branch-dir-icon': {
                           transform: 'translateX(4px)',
                         },
                       },
@@ -169,53 +204,53 @@ export const BranchesPreview: React.FC = () => {
                   >
                     <Box>
                       {/* Top Header */}
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                        <Stack direction="row" spacing={0.8} sx={{ alignItems: 'center' }}>
                           <LocationOnIcon
                             className="branch-loc-icon"
                             sx={{
-                              color: heritageColors.maroon.main,
-                              fontSize: 20,
-                              transition: 'transform 0.25s ease',
+                              color: v2Colors.gold.champagne,
+                              fontSize: 18,
+                              transition: 'transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
                             }}
                           />
                           <Typography
                             variant="overline"
                             sx={{
-                              color: heritageColors.gold.dark,
+                              color: v2Colors.gold.antique,
                               fontWeight: 700,
-                              letterSpacing: '0.12em',
-                              fontSize: '0.72rem',
+                              letterSpacing: '0.14em',
+                              fontSize: '0.7rem',
                             }}
                           >
                             {branch.region}
                           </Typography>
-                        </Box>
+                        </Stack>
 
                         {branch.isFlagship && (
                           <Chip
                             label="ORIGINAL DHABA"
                             size="small"
                             sx={{
-                              backgroundColor: heritageColors.gold.pale,
-                              color: heritageColors.charcoal.main,
+                              backgroundColor: v2Colors.maroon.burgundy,
+                              color: v2Colors.gold.pale,
                               fontSize: '0.65rem',
                               fontWeight: 800,
                               borderRadius: 0,
-                              border: `1px solid ${heritageColors.gold.border}`,
+                              border: `1px solid ${v2Colors.gold.hairline}`,
                             }}
                           />
                         )}
                       </Box>
 
-                      {/* Outlet Title */}
+                      {/* Name */}
                       <Typography
                         variant="h5"
                         sx={{
-                          fontSize: '1.25rem',
-                          fontWeight: 700,
-                          color: heritageColors.charcoal.main,
                           fontFamily: '"Cinzel", Georgia, serif',
+                          fontWeight: 800,
+                          fontSize: '1.25rem',
+                          color: v2Colors.ivory.warm,
                           mb: 0.5,
                         }}
                       >
@@ -225,43 +260,43 @@ export const BranchesPreview: React.FC = () => {
                       <Typography
                         variant="body2"
                         sx={{
-                          color: heritageColors.maroon.main,
+                          color: v2Colors.gold.champagne,
                           fontWeight: 600,
-                          mb: 1.5,
                           fontSize: '0.88rem',
+                          mb: 1.5,
                         }}
                       >
                         {branch.area}, {branch.city}
                       </Typography>
 
-                      {/* Full Address */}
                       {branch.address && (
                         <Typography
                           variant="body2"
                           sx={{
-                            color: heritageColors.text.secondaryDark,
-                            fontSize: '0.85rem',
+                            color: v2Colors.ivory.muted,
+                            fontSize: '0.82rem',
                             lineHeight: 1.6,
-                            mb: 2,
+                            mb: 2.5,
                           }}
                         >
                           {branch.address}
                         </Typography>
                       )}
 
-                      {/* Facilities Chips */}
-                      {branch.facilities && branch.facilities.length > 0 && (
-                        <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: 'wrap', gap: 0.8 }}>
-                          {branch.facilities.map((fac) => (
+                      {/* Facilities */}
+                      {branch.facilities && (
+                        <Stack direction="row" spacing={0.8} sx={{ mb: 3, flexWrap: 'wrap', gap: 0.8 }}>
+                          {branch.facilities.slice(0, 3).map((f) => (
                             <Chip
-                              key={fac}
+                              key={f}
+                              label={f}
                               size="small"
-                              label={fac}
                               sx={{
-                                backgroundColor: 'rgba(244, 235, 221, 0.8)',
-                                color: heritageColors.charcoal.main,
-                                fontSize: '0.7rem',
+                                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                                color: v2Colors.ivory.stone,
+                                fontSize: '0.68rem',
                                 borderRadius: 0,
+                                border: '1px solid rgba(195, 154, 82, 0.15)',
                               }}
                             />
                           ))}
@@ -272,8 +307,8 @@ export const BranchesPreview: React.FC = () => {
                     {/* Actions: Call & Directions */}
                     <Box
                       sx={{
-                        pt: 2,
-                        borderTop: '1px solid rgba(176, 138, 69, 0.18)',
+                        pt: 2.5,
+                        borderTop: `1px solid ${v2Colors.gold.hairline}`,
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
@@ -286,17 +321,15 @@ export const BranchesPreview: React.FC = () => {
                           display: 'flex',
                           alignItems: 'center',
                           gap: 0.8,
-                          color: heritageColors.charcoal.main,
+                          color: v2Colors.ivory.warm,
                           textDecoration: 'none',
                           fontSize: '0.8rem',
                           fontWeight: 600,
                           transition: 'color 0.2s',
-                          '&:hover': {
-                            color: heritageColors.maroon.main,
-                          },
+                          '&:hover': { color: v2Colors.gold.champagne },
                         }}
                       >
-                        <PhoneIcon sx={{ fontSize: 16, color: heritageColors.maroon.main }} />
+                        <PhoneIcon sx={{ fontSize: 16, color: v2Colors.gold.antique }} />
                         <span>{branch.phone}</span>
                       </Box>
 
@@ -308,24 +341,25 @@ export const BranchesPreview: React.FC = () => {
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: 0.5,
-                          color: heritageColors.gold.dark,
+                          gap: 0.6,
+                          color: v2Colors.gold.champagne,
                           textDecoration: 'none',
                           fontSize: '0.78rem',
                           fontWeight: 700,
-                          letterSpacing: '0.04em',
+                          letterSpacing: '0.06em',
                           textTransform: 'uppercase',
                           transition: 'color 0.2s',
-                          '&:hover': {
-                            color: heritageColors.charcoal.main,
-                          },
+                          '&:hover': { color: v2Colors.ivory.warm },
                         }}
                       >
                         <span>Directions</span>
-                        <DirectionsIcon className="branch-directions-icon" sx={{ fontSize: 16, transition: 'transform 0.2s ease' }} />
+                        <DirectionsIcon
+                          className="branch-dir-icon"
+                          sx={{ fontSize: 16, transition: 'transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)' }}
+                        />
                       </Box>
                     </Box>
-                  </HeritageFrame>
+                  </Box>
                 </motion.div>
               </Grid>
             ))}
@@ -334,18 +368,29 @@ export const BranchesPreview: React.FC = () => {
 
         {/* View All Outlets CTA */}
         <Box sx={{ textAlign: 'center' }}>
-          <CTAButton
-            variantType="maroon-filled"
+          <Button
             onClick={() => setAllBranchesOpen(true)}
-            icon={<ArrowForwardIcon />}
-            sx={{ minWidth: 260 }}
+            endIcon={<ArrowForwardIcon />}
+            sx={{
+              backgroundColor: v2Colors.gold.antique,
+              color: v2Colors.obsidian.black,
+              fontWeight: 800,
+              fontSize: '0.82rem',
+              letterSpacing: '0.1em',
+              px: 4,
+              py: 1.5,
+              '&:hover': {
+                backgroundColor: v2Colors.gold.champagne,
+                transform: 'translateY(-2px)',
+              },
+            }}
           >
-            View All 20+ Outlets
-          </CTAButton>
+            Explore Complete Directory (20+ Outlets)
+          </Button>
         </Box>
       </Container>
 
-      {/* MODAL: Complete All Branches Directory with Search */}
+      {/* Complete Directory Modal */}
       <Dialog
         open={allBranchesOpen}
         onClose={() => setAllBranchesOpen(false)}
@@ -354,9 +399,8 @@ export const BranchesPreview: React.FC = () => {
         slotProps={{
           paper: {
             sx: {
-              backgroundColor: heritageColors.parchment.pure,
-              backgroundImage: 'radial-gradient(circle at top right, rgba(176, 138, 69, 0.08), transparent 60%)',
-              border: `1px solid ${heritageColors.gold.main}`,
+              backgroundColor: v2Colors.obsidian.surface,
+              border: `1px solid ${v2Colors.gold.antique}`,
               borderRadius: 0,
               p: { xs: 2, sm: 3 },
             },
@@ -370,74 +414,72 @@ export const BranchesPreview: React.FC = () => {
               sx={{
                 fontFamily: '"Cinzel", Georgia, serif',
                 fontWeight: 800,
-                color: heritageColors.charcoal.main,
+                color: v2Colors.ivory.warm,
               }}
             >
               All Hotel Shivraj Dhaba Outlets
             </Typography>
-            <Typography variant="caption" sx={{ color: heritageColors.gold.dark, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600 }}>
-              Connecting Maharashtra with Royal Hospitality
+            <Typography variant="caption" sx={{ color: v2Colors.gold.champagne, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600 }}>
+              Royal Hospitality Across Maharashtra
             </Typography>
           </Box>
-          <IconButton onClick={() => setAllBranchesOpen(false)} sx={{ border: '1px solid rgba(176,138,69,0.3)' }}>
-            <CloseIcon fontSize="small" />
+          <IconButton onClick={() => setAllBranchesOpen(false)} sx={{ border: `1px solid ${v2Colors.gold.hairline}` }}>
+            <CloseIcon fontSize="small" sx={{ color: v2Colors.gold.champagne }} />
           </IconButton>
         </DialogTitle>
 
         <DialogContent sx={{ px: 1 }}>
-          {/* Search Bar */}
           <Box sx={{ mb: 3 }}>
             <TextField
               fullWidth
               size="small"
-              placeholder="Search by city (Pune, Mumbai, Karad, Sangli, Satara) or area..."
+              placeholder="Search by city (Pune, Mumbai, Karad, Sangli, Satara)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               slotProps={{
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon sx={{ color: heritageColors.gold.dark }} />
+                      <SearchIcon sx={{ color: v2Colors.gold.antique }} />
                     </InputAdornment>
                   ),
                   sx: {
                     borderRadius: 0,
-                    backgroundColor: '#FFFFFF',
-                    border: `1px solid ${heritageColors.gold.border}`,
+                    backgroundColor: v2Colors.obsidian.black,
+                    border: `1px solid ${v2Colors.gold.hairline}`,
+                    color: v2Colors.ivory.warm,
                   },
                 },
               }}
             />
           </Box>
 
-          {/* Modal Branch List */}
           <Stack spacing={2} sx={{ maxHeight: 480, overflowY: 'auto', pr: 1 }}>
             {modalFilteredBranches.map((b) => (
               <Box
                 key={b.id}
                 sx={{
                   p: 2,
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid rgba(176, 138, 69, 0.2)',
+                  backgroundColor: v2Colors.obsidian.black,
+                  border: `1px solid ${v2Colors.gold.hairline}`,
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
                   justifyContent: 'space-between',
                   alignItems: { xs: 'flex-start', sm: 'center' },
                   gap: 1.5,
-                  transition: 'border-color 0.2s',
                   '&:hover': {
-                    borderColor: heritageColors.gold.main,
+                    borderColor: v2Colors.gold.champagne,
                   },
                 }}
               >
                 <Box>
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 0.5 }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: heritageColors.charcoal.main }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: v2Colors.ivory.warm }}>
                       {b.name}
                     </Typography>
-                    <Chip label={b.region} size="small" sx={{ fontSize: '0.65rem', height: 20, borderRadius: 0 }} />
+                    <Chip label={b.region} size="small" sx={{ fontSize: '0.65rem', height: 20, borderRadius: 0, backgroundColor: v2Colors.maroon.burgundy, color: v2Colors.gold.pale }} />
                   </Stack>
-                  <Typography variant="body2" sx={{ color: heritageColors.text.mutedDark, fontSize: '0.82rem' }}>
+                  <Typography variant="body2" sx={{ color: v2Colors.ivory.muted, fontSize: '0.82rem' }}>
                     {b.address || `${b.area}, ${b.city}`}
                   </Typography>
                 </Box>
@@ -448,13 +490,12 @@ export const BranchesPreview: React.FC = () => {
                     sx={{
                       px: 2,
                       py: 0.75,
-                      border: `1px solid ${heritageColors.gold.border}`,
-                      color: heritageColors.charcoal.main,
+                      border: `1px solid ${v2Colors.gold.hairline}`,
+                      color: v2Colors.ivory.warm,
                       textDecoration: 'none',
                       fontSize: '0.75rem',
                       fontWeight: 600,
                       textAlign: 'center',
-                      flexGrow: { xs: 1, sm: 0 },
                     }}
                   >
                     Call: {b.phone}
@@ -467,13 +508,12 @@ export const BranchesPreview: React.FC = () => {
                     sx={{
                       px: 2,
                       py: 0.75,
-                      backgroundColor: heritageColors.maroon.main,
-                      color: '#FFFFFF',
+                      backgroundColor: v2Colors.gold.antique,
+                      color: v2Colors.obsidian.black,
                       textDecoration: 'none',
                       fontSize: '0.75rem',
-                      fontWeight: 600,
+                      fontWeight: 700,
                       textAlign: 'center',
-                      flexGrow: { xs: 1, sm: 0 },
                     }}
                   >
                     Directions
@@ -484,8 +524,8 @@ export const BranchesPreview: React.FC = () => {
 
             {modalFilteredBranches.length === 0 && (
               <Box sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="body2" sx={{ color: heritageColors.text.mutedDark }}>
-                  No outlets found matching "{searchQuery}". Try searching for Pune, Mumbai, Satara, or Karad.
+                <Typography variant="body2" sx={{ color: v2Colors.ivory.muted }}>
+                  No outlets found matching "{searchQuery}".
                 </Typography>
               </Box>
             )}

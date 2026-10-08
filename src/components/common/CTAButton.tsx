@@ -63,7 +63,9 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
 
   return (
     <motion.div
+      whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
       style={{ display: 'inline-flex' }}
     >
       <Button

@@ -87,63 +87,69 @@ export const Navbar: React.FC = () => {
           {/* ========================================================= */}
           {/* 1. LEFT: Compact Logo & Heritage Branding (~18-20% width) */}
           {/* ========================================================= */}
-          <Box
-            component="a"
-            href="#hero"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              gap: 1.4,
-              flexShrink: 0,
-            }}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
             <Box
-              component="img"
-              src="/images/shivraj_logo.png"
-              alt="Hotel Shivraj Logo"
+              component="a"
+              href="#hero"
               sx={{
-                height: scrolled ? { xs: 38, md: 40 } : { xs: 42, md: 46 },
-                width: 'auto',
-                filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.45))',
-                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                gap: 1.4,
+                flexShrink: 0,
               }}
-            />
-            <Box>
-              <Typography
-                variant="subtitle2"
+            >
+              <Box
+                component="img"
+                src="/images/shivraj_logo.png"
+                alt="Hotel Shivraj Logo"
                 sx={{
-                  color: heritageColors.gold.light,
-                  fontSize: '0.62rem',
-                  letterSpacing: '0.18em',
-                  lineHeight: 1,
-                  display: 'block',
-                  fontWeight: 600,
+                  height: scrolled ? { xs: 38, md: 40 } : { xs: 42, md: 46 },
+                  width: 'auto',
+                  filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.45))',
+                  transition: 'all 0.3s ease',
                 }}
-              >
-                कराड • ESTD. KARAD
-              </Typography>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  fontFamily: '"Cinzel", Georgia, serif',
-                  fontWeight: 800,
-                  fontSize: scrolled
-                    ? { xs: '1rem', md: '1.15rem' }
-                    : { xs: '1.05rem', md: '1.25rem' },
-                  letterSpacing: '0.04em',
-                  color: heritageColors.parchment.pure,
-                  lineHeight: 1.15,
-                  mt: 0.2,
-                  transition: 'font-size 0.3s ease',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                HOTEL SHIVRAJ
-              </Typography>
+              />
+              <Box>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: heritageColors.gold.light,
+                    fontSize: '0.62rem',
+                    letterSpacing: '0.18em',
+                    lineHeight: 1,
+                    display: 'block',
+                    fontWeight: 600,
+                  }}
+                >
+                  कराड • ESTD. KARAD
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    fontFamily: '"Cinzel", Georgia, serif',
+                    fontWeight: 800,
+                    fontSize: scrolled
+                      ? { xs: '1rem', md: '1.15rem' }
+                      : { xs: '1.05rem', md: '1.25rem' },
+                    letterSpacing: '0.04em',
+                    color: heritageColors.parchment.pure,
+                    lineHeight: 1.15,
+                    mt: 0.2,
+                    transition: 'font-size 0.3s ease',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  HOTEL SHIVRAJ
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          </motion.div>
 
           {/* ========================================================= */}
           {/* 2. CENTER: Clean, Spacious Single-Line Nav (~60-65% width) */}
@@ -158,49 +164,58 @@ export const Navbar: React.FC = () => {
               gap: { lg: 3.2, xl: 4.2 },
             }}
           >
-            {navigationItems.map((item) => {
+            {navigationItems.map((item, idx) => {
               const isActive = activeHash === item.href;
 
               return (
-                <Box
+                <motion.div
                   key={item.label}
-                  component="a"
-                  href={item.href}
-                  sx={{
-                    color: isActive
-                      ? heritageColors.gold.highlight
-                      : heritageColors.parchment.light,
-                    textDecoration: 'none',
-                    fontSize: '0.84rem',
-                    fontFamily: '"Plus Jakarta Sans", sans-serif',
-                    fontWeight: 500,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    position: 'relative',
-                    py: 0.8,
-                    whiteSpace: 'nowrap',
-                    transition: 'color 0.22s ease',
-                    '&:hover': {
-                      color: heritageColors.gold.highlight,
-                    },
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      bottom: 0,
-                      left: '50%',
-                      width: isActive ? '100%' : '0%',
-                      height: '1.5px',
-                      backgroundColor: heritageColors.gold.highlight,
-                      transition: 'all 0.25s cubic-bezier(0.2, 0, 0, 1)',
-                      transform: 'translateX(-50%)',
-                    },
-                    '&:hover::after': {
-                      width: '100%',
-                    },
-                  }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.15 + idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {item.label}
-                </Box>
+                  <Box
+                    component="a"
+                    href={item.href}
+                    sx={{
+                      color: isActive
+                        ? heritageColors.gold.highlight
+                        : heritageColors.parchment.light,
+                      textDecoration: 'none',
+                      fontSize: '0.84rem',
+                      fontFamily: '"Plus Jakarta Sans", sans-serif',
+                      fontWeight: 500,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      position: 'relative',
+                      display: 'inline-block',
+                      py: 0.8,
+                      whiteSpace: 'nowrap',
+                      transition: 'color 0.22s ease, transform 0.25s ease',
+                      '&:hover': {
+                        color: heritageColors.gold.highlight,
+                        transform: 'translateY(-1px)',
+                      },
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: '50%',
+                        width: '100%',
+                        height: '1.5px',
+                        backgroundColor: heritageColors.gold.highlight,
+                        transformOrigin: 'center',
+                        transform: isActive ? 'translateX(-50%) scaleX(1)' : 'translateX(-50%) scaleX(0)',
+                        transition: 'transform 0.25s cubic-bezier(0.2, 0, 0, 1)',
+                      },
+                      '&:hover::after': {
+                        transform: 'translateX(-50%) scaleX(1)',
+                      },
+                    }}
+                  >
+                    {item.label}
+                  </Box>
+                </motion.div>
               );
             })}
           </Box>
@@ -208,46 +223,51 @@ export const Navbar: React.FC = () => {
           {/* ========================================================= */}
           {/* 3. RIGHT: Compact Find a Branch CTA (~12-15% width)       */}
           {/* ========================================================= */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1.5,
-              flexShrink: 0,
-            }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.55, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Desktop CTA Button */}
-            <Button
-              component="a"
-              href="#branches"
-              endIcon={
-                <LocationOnOutlinedIcon
-                  className="nav-cta-icon"
-                  sx={{
-                    fontSize: '1.1rem !important',
-                    transition: 'transform 0.25s cubic-bezier(0.2, 0, 0, 1)',
-                  }}
-                />
-              }
+            <Box
               sx={{
-                display: { xs: 'none', sm: 'inline-flex' },
-                width: { sm: 160, md: 175 },
-                height: 40,
-                px: 2.2,
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                backgroundColor: heritageColors.gold.main,
-                color: heritageColors.charcoal.darkest,
-                borderRadius: 0,
-                border: `1px solid ${heritageColors.gold.highlight}`,
-                boxShadow: '0 4px 14px rgba(176, 138, 69, 0.22)',
-                whiteSpace: 'nowrap',
-                transition: 'all 0.25s cubic-bezier(0.2, 0, 0, 1)',
-                '&:hover': {
-                  backgroundColor: heritageColors.gold.highlight,
-                  boxShadow: '0 6px 18px rgba(176, 138, 69, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5,
+                flexShrink: 0,
+              }}
+            >
+              {/* Desktop CTA Button */}
+              <Button
+                component="a"
+                href="#branches"
+                endIcon={
+                  <LocationOnOutlinedIcon
+                    className="nav-cta-icon"
+                    sx={{
+                      fontSize: '1.1rem !important',
+                      transition: 'transform 0.25s cubic-bezier(0.2, 0, 0, 1)',
+                    }}
+                  />
+                }
+                sx={{
+                  display: { xs: 'none', sm: 'inline-flex' },
+                  width: { sm: 160, md: 175 },
+                  height: 40,
+                  px: 2.2,
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  backgroundColor: heritageColors.gold.main,
+                  color: heritageColors.charcoal.darkest,
+                  borderRadius: 0,
+                  border: `1px solid ${heritageColors.gold.highlight}`,
+                  boxShadow: '0 4px 14px rgba(176, 138, 69, 0.22)',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.25s cubic-bezier(0.2, 0, 0, 1)',
+                  '&:hover': {
+                    backgroundColor: heritageColors.gold.highlight,
+                    boxShadow: '0 6px 18px rgba(176, 138, 69, 0.4)',
                   transform: 'translateY(-1px)',
                   '& .nav-cta-icon': {
                     transform: 'translateX(3px)',
@@ -281,6 +301,7 @@ export const Navbar: React.FC = () => {
               <MenuIcon fontSize="small" />
             </IconButton>
           </Box>
+          </motion.div>
         </Toolbar>
       </Container>
 

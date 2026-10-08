@@ -6,9 +6,11 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import { motion } from 'framer-motion';
 import { heritageColors } from '../../theme/colors';
 import { navigationItems, contactInfo } from '../../data/navigation';
 import { HeritageDivider } from '../common/HeritageDivider';
+import { luxuryEase } from '../../theme/motion';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -39,8 +41,14 @@ export const Footer: React.FC = () => {
         <Grid container spacing={{ xs: 5, md: 6 }} sx={{ mb: 6 }}>
           {/* Column 1: Brand & Philosophy */}
           <Grid size={{ xs: 12, md: 4 }}>
-            <Box sx={{ mb: 3 }}>
-              <Stack direction="row" spacing={2} sx={{ mb: 2, alignItems: 'center' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.05, ease: luxuryEase }}
+            >
+              <Box sx={{ mb: 3 }}>
+                <Stack direction="row" spacing={2} sx={{ mb: 2, alignItems: 'center' }}>
                 <Box
                   component="img"
                   src="/images/shivraj_logo.png"
@@ -121,239 +129,275 @@ export const Footer: React.FC = () => {
                 </Typography>
               </Box>
             </Box>
-          </Grid>
+          </motion.div>
+        </Grid>
 
           {/* Column 2: Navigation Links */}
           <Grid size={{ xs: 6, sm: 4, md: 2 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: '"Cinzel", Georgia, serif',
-                color: heritageColors.gold.highlight,
-                fontSize: '0.95rem',
-                letterSpacing: '0.12em',
-                mb: 2.5,
-                position: 'relative',
-                display: 'inline-block',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: -6,
-                  left: 0,
-                  width: 28,
-                  height: '1px',
-                  backgroundColor: heritageColors.gold.main,
-                },
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.15, ease: luxuryEase }}
             >
-              EXPLORE
-            </Typography>
-            <Stack spacing={1.5}>
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  underline="none"
-                  sx={{
-                    color: heritageColors.text.secondaryLight,
-                    fontSize: '0.875rem',
-                    transition: 'all 0.25s ease',
-                    display: 'inline-block',
-                    '&:hover': {
-                      color: heritageColors.gold.highlight,
-                      transform: 'translateX(4px)',
-                    },
-                  }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </Stack>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: '"Cinzel", Georgia, serif',
+                  color: heritageColors.gold.highlight,
+                  fontSize: '0.95rem',
+                  letterSpacing: '0.12em',
+                  mb: 2.5,
+                  position: 'relative',
+                  display: 'inline-block',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -6,
+                    left: 0,
+                    width: 28,
+                    height: '1px',
+                    backgroundColor: heritageColors.gold.main,
+                  },
+                }}
+              >
+                EXPLORE
+              </Typography>
+              <Stack spacing={1.5}>
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    underline="none"
+                    sx={{
+                      color: heritageColors.text.secondaryLight,
+                      fontSize: '0.875rem',
+                      transition: 'all 0.25s ease',
+                      display: 'inline-block',
+                      '&:hover': {
+                        color: heritageColors.gold.highlight,
+                        transform: 'translateX(4px)',
+                      },
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </Stack>
+            </motion.div>
           </Grid>
 
           {/* Column 3: Presence Across Maharashtra */}
           <Grid size={{ xs: 6, sm: 4, md: 3 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: '"Cinzel", Georgia, serif',
-                color: heritageColors.gold.highlight,
-                fontSize: '0.95rem',
-                letterSpacing: '0.12em',
-                mb: 2.5,
-                position: 'relative',
-                display: 'inline-block',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: -6,
-                  left: 0,
-                  width: 28,
-                  height: '1px',
-                  backgroundColor: heritageColors.gold.main,
-                },
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.25, ease: luxuryEase }}
             >
-              LOCATIONS
-            </Typography>
-            <Stack spacing={1.2}>
-              {[
-                'Karad (Highway AC Flagship)',
-                'Pune (Hinjawadi, Ravet, Sasvad)',
-                'Mumbai (Kamothe, Prabhadevi, Thane)',
-                'Sangli (City, Miraj, Vita)',
-                'Satara (Highway, Umbraj, Koregaon)',
-                'Konkan (Chiplun Gateway)',
-              ].map((loc) => (
-                <Typography
-                  key={loc}
-                  variant="body2"
-                  sx={{
-                    color: heritageColors.text.mutedLight,
-                    fontSize: '0.85rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                  }}
-                >
-                  <Box
-                    component="span"
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: '"Cinzel", Georgia, serif',
+                  color: heritageColors.gold.highlight,
+                  fontSize: '0.95rem',
+                  letterSpacing: '0.12em',
+                  mb: 2.5,
+                  position: 'relative',
+                  display: 'inline-block',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -6,
+                    left: 0,
+                    width: 28,
+                    height: '1px',
+                    backgroundColor: heritageColors.gold.main,
+                  },
+                }}
+              >
+                LOCATIONS
+              </Typography>
+              <Stack spacing={1.2}>
+                {[
+                  'Karad (Highway AC Flagship)',
+                  'Pune (Hinjawadi, Ravet, Sasvad)',
+                  'Mumbai (Kamothe, Prabhadevi, Thane)',
+                  'Sangli (City, Miraj, Vita)',
+                  'Satara (Highway, Umbraj, Koregaon)',
+                  'Konkan (Chiplun Gateway)',
+                ].map((loc) => (
+                  <Typography
+                    key={loc}
+                    variant="body2"
                     sx={{
-                      width: 4,
-                      height: 4,
-                      backgroundColor: heritageColors.gold.main,
-                      transform: 'rotate(45deg)',
-                      display: 'inline-block',
+                      color: heritageColors.text.mutedLight,
+                      fontSize: '0.85rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
                     }}
-                  />
-                  {loc}
-                </Typography>
-              ))}
-            </Stack>
+                  >
+                    <Box
+                      component="span"
+                      sx={{
+                        width: 4,
+                        height: 4,
+                        backgroundColor: heritageColors.gold.main,
+                        transform: 'rotate(45deg)',
+                        display: 'inline-block',
+                      }}
+                    />
+                    {loc}
+                  </Typography>
+                ))}
+              </Stack>
+            </motion.div>
           </Grid>
 
           {/* Column 4: Contact & Social Impact */}
           <Grid size={{ xs: 12, sm: 4, md: 3 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: '"Cinzel", Georgia, serif',
-                color: heritageColors.gold.highlight,
-                fontSize: '0.95rem',
-                letterSpacing: '0.12em',
-                mb: 2.5,
-                position: 'relative',
-                display: 'inline-block',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: -6,
-                  left: 0,
-                  width: 28,
-                  height: '1px',
-                  backgroundColor: heritageColors.gold.main,
-                },
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.35, ease: luxuryEase }}
             >
-              CONTACT &amp; CARE
-            </Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: '"Cinzel", Georgia, serif',
+                  color: heritageColors.gold.highlight,
+                  fontSize: '0.95rem',
+                  letterSpacing: '0.12em',
+                  mb: 2.5,
+                  position: 'relative',
+                  display: 'inline-block',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -6,
+                    left: 0,
+                    width: 28,
+                    height: '1px',
+                    backgroundColor: heritageColors.gold.main,
+                  },
+                }}
+              >
+                CONTACT &amp; CARE
+              </Typography>
 
-            <Stack spacing={2} sx={{ mb: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                <PhoneIcon sx={{ fontSize: 18, color: heritageColors.gold.main, mt: 0.2 }} />
-                <Box>
-                  <Typography variant="body2" sx={{ color: heritageColors.parchment.pure, fontWeight: 600 }}>
-                    {contactInfo.primaryPhone}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: heritageColors.text.mutedLight }}>
-                    Alt: {contactInfo.secondaryPhone}
+              <Stack spacing={2} sx={{ mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                  <PhoneIcon sx={{ fontSize: 18, color: heritageColors.gold.main, mt: 0.2 }} />
+                  <Box>
+                    <Typography variant="body2" sx={{ color: heritageColors.parchment.pure, fontWeight: 600 }}>
+                      {contactInfo.primaryPhone}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: heritageColors.text.mutedLight }}>
+                      Alt: {contactInfo.secondaryPhone}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                  <EmailIcon sx={{ fontSize: 18, color: heritageColors.gold.main, mt: 0.2 }} />
+                  <Typography variant="body2" sx={{ color: heritageColors.text.secondaryLight }}>
+                    {contactInfo.email}
                   </Typography>
                 </Box>
-              </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                <EmailIcon sx={{ fontSize: 18, color: heritageColors.gold.main, mt: 0.2 }} />
-                <Typography variant="body2" sx={{ color: heritageColors.text.secondaryLight }}>
-                  {contactInfo.email}
-                </Typography>
-              </Box>
-
-              {/* Free Ambulance Helpline Card */}
-              <Box
-                sx={{
-                  p: 1.8,
-                  backgroundColor: 'rgba(74, 23, 24, 0.45)',
-                  border: `1px solid rgba(176, 138, 69, 0.35)`,
-                  borderRadius: 0,
-                }}
-              >
-                <Stack direction="row" spacing={1.2} sx={{ mb: 0.5, alignItems: 'center' }}>
-                  <MedicalServicesIcon sx={{ color: heritageColors.gold.highlight, fontSize: 20 }} />
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: heritageColors.gold.pale, fontSize: '0.8rem', fontWeight: 700 }}
-                  >
-                    24x7 FREE AMBULANCE SERVICE
-                  </Typography>
-                </Stack>
-                <Typography variant="caption" sx={{ color: heritageColors.text.mutedLight, display: 'block', mb: 0.8 }}>
-                  A public welfare initiative by Hotel Shivraj Dhaba:
-                </Typography>
-                <Typography
-                  component="a"
-                  href={`tel:${contactInfo.ambulancePhone}`}
+                {/* Free Ambulance Helpline Card */}
+                <Box
                   sx={{
-                    color: '#FFFFFF',
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    fontSize: '0.95rem',
-                    letterSpacing: '0.05em',
-                    '&:hover': { color: heritageColors.gold.highlight },
+                    p: 1.8,
+                    backgroundColor: 'rgba(74, 23, 24, 0.45)',
+                    border: `1px solid rgba(176, 138, 69, 0.35)`,
+                    borderRadius: 0,
                   }}
                 >
-                  Call: {contactInfo.ambulancePhone}
-                </Typography>
-              </Box>
-            </Stack>
+                  <Stack direction="row" spacing={1.2} sx={{ mb: 0.5, alignItems: 'center' }}>
+                    <MedicalServicesIcon sx={{ color: heritageColors.gold.highlight, fontSize: 20 }} />
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ color: heritageColors.gold.pale, fontSize: '0.8rem', fontWeight: 700 }}
+                    >
+                      24x7 FREE AMBULANCE SERVICE
+                    </Typography>
+                  </Stack>
+                  <Typography variant="caption" sx={{ color: heritageColors.text.mutedLight, display: 'block', mb: 0.8 }}>
+                    A public welfare initiative by Hotel Shivraj Dhaba:
+                  </Typography>
+                  <Typography
+                    component="a"
+                    href={`tel:${contactInfo.ambulancePhone}`}
+                    sx={{
+                      color: '#FFFFFF',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      fontSize: '0.95rem',
+                      letterSpacing: '0.05em',
+                      '&:hover': { color: heritageColors.gold.highlight },
+                    }}
+                  >
+                    Call: {contactInfo.ambulancePhone}
+                  </Typography>
+                </Box>
+              </Stack>
 
-            {/* Social Icons */}
-            <Stack direction="row" spacing={1.5}>
-              <IconButton
-                component="a"
-                href={contactInfo.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  color: heritageColors.gold.pale,
-                  border: `1px solid ${heritageColors.gold.border}`,
-                  '&:hover': {
-                    color: '#FFFFFF',
-                    backgroundColor: heritageColors.maroon.main,
-                    borderColor: heritageColors.gold.light,
-                  },
-                }}
-              >
-                <InstagramIcon fontSize="small" />
-              </IconButton>
+              {/* Social Icons */}
+              <Stack direction="row" spacing={1.5}>
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.45, ease: luxuryEase }}
+                >
+                  <IconButton
+                    component="a"
+                    href={contactInfo.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      color: heritageColors.gold.pale,
+                      border: `1px solid ${heritageColors.gold.border}`,
+                      '&:hover': {
+                        color: '#FFFFFF',
+                        backgroundColor: heritageColors.maroon.main,
+                        borderColor: heritageColors.gold.light,
+                      },
+                    }}
+                  >
+                    <InstagramIcon fontSize="small" />
+                  </IconButton>
+                </motion.div>
 
-              <IconButton
-                component="a"
-                href={contactInfo.youtubeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  color: heritageColors.gold.pale,
-                  border: `1px solid ${heritageColors.gold.border}`,
-                  '&:hover': {
-                    color: '#FFFFFF',
-                    backgroundColor: heritageColors.maroon.main,
-                    borderColor: heritageColors.gold.light,
-                  },
-                }}
-              >
-                <YouTubeIcon fontSize="small" />
-              </IconButton>
-            </Stack>
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.55, ease: luxuryEase }}
+                >
+                  <IconButton
+                    component="a"
+                    href={contactInfo.youtubeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      color: heritageColors.gold.pale,
+                      border: `1px solid ${heritageColors.gold.border}`,
+                      '&:hover': {
+                        color: '#FFFFFF',
+                        backgroundColor: heritageColors.maroon.main,
+                        borderColor: heritageColors.gold.light,
+                      },
+                    }}
+                  >
+                    <YouTubeIcon fontSize="small" />
+                  </IconButton>
+                </motion.div>
+              </Stack>
+            </motion.div>
           </Grid>
         </Grid>
 

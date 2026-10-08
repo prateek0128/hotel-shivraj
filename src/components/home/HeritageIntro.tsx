@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Container, Grid, Typography, Stack } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
@@ -9,7 +9,7 @@ import { heritageColors } from '../../theme/colors';
 import { SectionHeading } from '../common/SectionHeading';
 import { HeritageFrame } from '../common/HeritageFrame';
 import { CTAButton } from '../common/CTAButton';
-import { imageClipRevealVariants } from '../../theme/motion';
+import { luxuryEase, subtleFloatVariants, iconPopVariants } from '../../theme/motion';
 
 const featureCards = [
   {
@@ -39,8 +39,17 @@ const featureCards = [
 ];
 
 export const HeritageIntro: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const imageParallaxY = useTransform(scrollYProgress, [0, 1], [-25, 25]);
+
   return (
     <Box
+      ref={sectionRef}
       id="heritage-intro"
       sx={{
         py: { xs: 8, md: 12 },
@@ -64,70 +73,75 @@ export const HeritageIntro: React.FC = () => {
         />
 
         <Grid container spacing={{ xs: 5, md: 8 }} sx={{ mt: 1, alignItems: 'center' }}>
-          {/* Left Column: Masked Clip-Path Image Reveal with Ambient Glow */}
+          {/* Left Column: Masked Clip-Path Image Reveal with Ambient Parallax & Subtle Continuous Floating */}
           <Grid size={{ xs: 12, md: 5.5 }}>
-            <motion.div
-              variants={imageClipRevealVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-60px' }}
-            >
-              <HeritageFrame
-                mode="light"
-                padding={{ xs: 2, sm: 2.5 }}
-                sx={{
-                  backgroundColor: heritageColors.charcoal.main,
-                  boxShadow: '0 24px 48px rgba(23, 18, 14, 0.22)',
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    top: -10,
-                    left: -10,
-                    right: -10,
-                    bottom: -10,
-                    background: 'radial-gradient(circle at center, rgba(176, 138, 69, 0.15), transparent 70%)',
-                    zIndex: -1,
-                    pointerEvents: 'none',
-                  },
-                }}
+            <motion.div style={{ y: imageParallaxY }}>
+              <motion.div
+                initial={{ opacity: 0, clipPath: 'inset(0% 100% 0% 0%)', scale: 1.08 }}
+                whileInView={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 1.15, ease: luxuryEase }}
               >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: 0,
-                    backgroundColor: heritageColors.charcoal.surface,
-                    border: `1px solid ${heritageColors.gold.border}`,
-                  }}
+                <motion.div
+                  variants={subtleFloatVariants}
+                  animate="animate"
                 >
-                  <Box
-                    component="img"
-                    src="/images/maharaj_statue.png"
-                    alt="Chhatrapati Shivaji Maharaj Monument at Hotel Shivraj"
+                  <HeritageFrame
+                    mode="light"
+                    padding={{ xs: 2, sm: 2.5 }}
                     sx={{
-                      width: '100%',
-                      height: { xs: 360, sm: 460, md: 520 },
-                      objectFit: 'cover',
-                      objectPosition: 'center 20%',
-                      filter: 'contrast(1.05) saturate(1.05)',
-                      transition: 'transform 0.6s cubic-bezier(0.2, 0, 0, 1)',
-                      '&:hover': {
-                        transform: 'scale(1.03)',
+                      backgroundColor: heritageColors.charcoal.main,
+                      boxShadow: '0 24px 48px rgba(23, 18, 14, 0.22)',
+                      position: 'relative',
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        top: -10,
+                        left: -10,
+                        right: -10,
+                        bottom: -10,
+                        background: 'radial-gradient(circle at center, rgba(176, 138, 69, 0.15), transparent 70%)',
+                        zIndex: -1,
+                        pointerEvents: 'none',
                       },
                     }}
-                  />
+                  >
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        overflow: 'hidden',
+                        borderRadius: 0,
+                        backgroundColor: heritageColors.charcoal.surface,
+                        border: `1px solid ${heritageColors.gold.border}`,
+                      }}
+                    >
+                      <Box
+                        component="img"
+                        src="/images/maharaj_statue.png"
+                        alt="Chhatrapati Shivaji Maharaj Monument at Hotel Shivraj"
+                        sx={{
+                          width: '100%',
+                          height: { xs: 360, sm: 460, md: 520 },
+                          objectFit: 'cover',
+                          objectPosition: 'center 20%',
+                          filter: 'contrast(1.05) saturate(1.05)',
+                          transition: 'transform 0.6s cubic-bezier(0.2, 0, 0, 1)',
+                          '&:hover': {
+                            transform: 'scale(1.03)',
+                          },
+                        }}
+                      />
 
-                  {/* Bottom Royal Caption Card */}
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      p: { xs: 2, sm: 2.5 },
-                      background: 'linear-gradient(180deg, transparent 0%, rgba(14, 11, 9, 0.95) 45%)',
-                      textAlign: 'center',
+                      {/* Bottom Royal Caption Card */}
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          p: { xs: 2, sm: 2.5 },
+                          background: 'linear-gradient(180deg, transparent 0%, rgba(14, 11, 9, 0.95) 45%)',
+                          textAlign: 'center',
                     }}
                   >
                     <Typography
@@ -167,16 +181,18 @@ export const HeritageIntro: React.FC = () => {
                   </Box>
                 </Box>
               </HeritageFrame>
+                </motion.div>
+              </motion.div>
             </motion.div>
           </Grid>
 
           {/* Right Column: Staggered Story & Elevated Feature Cards */}
           <Grid size={{ xs: 12, md: 6.5 }}>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.75, ease: luxuryEase }}
             >
               <Typography
                 variant="subtitle2"
@@ -234,66 +250,81 @@ export const HeritageIntro: React.FC = () => {
 
               {/* Elevated 4 Pillars Cards with Architectural Framing & Micro-Interactions */}
               <Grid container spacing={2.5} sx={{ mb: 4.5 }}>
-                {featureCards.map((card) => (
+                {featureCards.map((card, idx) => (
                   <Grid size={{ xs: 12, sm: 6 }} key={card.title}>
-                    <Box
-                      sx={{
-                        p: 2.2,
-                        height: '100%',
-                        backgroundColor: 'rgba(255, 255, 255, 0.92)',
-                        border: '1px solid rgba(176, 138, 69, 0.22)',
-                        borderLeft: `3px solid ${card.borderAccent}`,
-                        position: 'relative',
-                        transition: 'all 0.3s cubic-bezier(0.2, 0, 0, 1)',
-                        '&:hover': {
-                          transform: 'translateY(-5px)',
-                          borderColor: heritageColors.gold.main,
-                          backgroundColor: '#FFFFFF',
-                          boxShadow: '0 12px 28px rgba(23, 18, 14, 0.08)',
-                          '& .card-icon-frame': {
-                            backgroundColor: heritageColors.gold.pale,
-                          },
-                        },
-                      }}
+                    <motion.div
+                      initial={{ opacity: 0, y: 35 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-40px' }}
+                      transition={{ duration: 0.6, delay: 0.1 + idx * 0.12, ease: luxuryEase }}
+                      style={{ height: '100%' }}
                     >
-                      <Stack direction="row" spacing={1.5} sx={{ mb: 1, alignItems: 'center' }}>
-                        <Box
-                          className="card-icon-frame"
-                          sx={{
-                            width: 36,
-                            height: 36,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'rgba(244, 235, 221, 0.6)',
-                            border: `1px solid ${heritageColors.gold.border}`,
-                            transition: 'all 0.25s ease',
-                          }}
-                        >
-                          {card.icon}
-                        </Box>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            fontSize: '0.88rem',
-                            fontWeight: 700,
-                            color: heritageColors.charcoal.main,
-                          }}
-                        >
-                          {card.title}
-                        </Typography>
-                      </Stack>
-                      <Typography
-                        variant="caption"
+                      <Box
                         sx={{
-                          color: heritageColors.text.mutedDark,
-                          lineHeight: 1.6,
-                          display: 'block',
+                          p: 2.2,
+                          height: '100%',
+                          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                          border: '1px solid rgba(176, 138, 69, 0.22)',
+                          borderLeft: `3px solid ${card.borderAccent}`,
+                          position: 'relative',
+                          transition: 'all 0.3s cubic-bezier(0.2, 0, 0, 1)',
+                          '&:hover': {
+                            transform: 'translateY(-5px)',
+                            borderColor: heritageColors.gold.main,
+                            backgroundColor: '#FFFFFF',
+                            boxShadow: '0 12px 28px rgba(23, 18, 14, 0.08)',
+                            '& .card-icon-frame': {
+                              backgroundColor: heritageColors.gold.pale,
+                            },
+                          },
                         }}
                       >
-                        {card.desc}
-                      </Typography>
-                    </Box>
+                        <Stack direction="row" spacing={1.5} sx={{ mb: 1, alignItems: 'center' }}>
+                          <motion.div
+                            variants={iconPopVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                          >
+                            <Box
+                              className="card-icon-frame"
+                              sx={{
+                                width: 36,
+                                height: 36,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'rgba(244, 235, 221, 0.6)',
+                                border: `1px solid ${heritageColors.gold.border}`,
+                                transition: 'all 0.25s ease',
+                              }}
+                            >
+                              {card.icon}
+                            </Box>
+                          </motion.div>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              fontSize: '0.88rem',
+                              fontWeight: 700,
+                              color: heritageColors.charcoal.main,
+                            }}
+                          >
+                            {card.title}
+                          </Typography>
+                        </Stack>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: heritageColors.text.mutedDark,
+                            lineHeight: 1.6,
+                            display: 'block',
+                          }}
+                        >
+                          {card.desc}
+                        </Typography>
+                      </Box>
+                    </motion.div>
                   </Grid>
                 ))}
               </Grid>

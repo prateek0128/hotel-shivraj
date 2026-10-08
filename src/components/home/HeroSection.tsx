@@ -8,7 +8,9 @@ import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import StarsIcon from '@mui/icons-material/Stars';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { heritageColors } from '../../theme/colors';
+import { luxuryEase } from '../../theme/motion';
 import { CTAButton } from '../common/CTAButton';
+import { AnimatedCounter } from '../common/AnimatedCounter';
 
 // SVG Corner Ornament with stroke-drawing animation
 const PalaceCorner: React.FC<{
@@ -25,46 +27,46 @@ const PalaceCorner: React.FC<{
         bottom: !isTop ? -2 : 'auto',
         left: isLeft ? -2 : 'auto',
         right: !isLeft ? -2 : 'auto',
-        width: 32,
-        height: 32,
+        width: 36,
+        height: 36,
         pointerEvents: 'none',
         zIndex: 3,
         transform: `${!isLeft ? 'scaleX(-1)' : ''} ${!isTop ? 'scaleY(-1)' : ''}`,
       }}
     >
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
         {/* Outer Corner Frame */}
         <motion.path
-          d="M0 32 V 0 H 32"
+          d="M0 36 V 0 H 36"
           stroke={heritageColors.gold.highlight}
           strokeWidth="2"
           fill="none"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 1.3, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         />
         {/* Inner Decorative Accent */}
         <motion.path
-          d="M6 18 V 6 H 18"
+          d="M8 22 V 8 H 22"
           stroke={heritageColors.gold.main}
           strokeWidth="1.2"
-          strokeDasharray="2 2"
+          strokeDasharray="3 3"
           fill="none"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.8 }}
-          transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
+          animate={{ pathLength: 1, opacity: 0.85 }}
+          transition={{ duration: 1.1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
         />
         {/* Tiny Regal Diamond */}
         <motion.rect
-          x="4"
-          y="4"
-          width="3"
-          height="3"
+          x="5"
+          y="5"
+          width="4"
+          height="4"
           fill={heritageColors.gold.highlight}
-          transform="rotate(45 5.5 5.5)"
+          transform="rotate(45 7 7)"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.4, delay: 1 }}
+          transition={{ duration: 0.4, delay: 1.1 }}
         />
       </svg>
     </Box>
@@ -78,8 +80,8 @@ export const HeroSection: React.FC = () => {
     offset: ['start start', 'end start'],
   });
 
-  // Extremely subtle parallax depth: background moves slower than foreground
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '16%']);
+  // Parallax depth: background moves slower than foreground
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.2]);
 
   return (
@@ -96,14 +98,43 @@ export const HeroSection: React.FC = () => {
         pt: { xs: 15, sm: 17, md: 20 },
         pb: { xs: 9, md: 11 },
         overflow: 'hidden',
-        backgroundColor: heritageColors.charcoal.darkest,
+        backgroundColor: '#070504',
       }}
     >
-      {/* 1. Cinematic Background Layer with Parallax & Slow Reveal */}
+      {/* STEP 1: Dark/Black overlay initial fade sequence (~400ms) */}
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: '#050403',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* STEP 2: Cinematic Background with entrance scale 1.08 -> 1 + subtle continuous breathing motion */}
       <motion.div
         initial={{ opacity: 0, scale: 1.08 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        animate={{
+          opacity: 1,
+          scale: [1.08, 1, 1.025, 1],
+        }}
+        transition={{
+          opacity: { duration: 1.1, ease: luxuryEase },
+          scale: {
+            times: [0, 0.12, 0.55, 1],
+            duration: 14,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            ease: 'easeInOut',
+          },
+        }}
         style={{
           position: 'absolute',
           top: 0,
@@ -166,11 +197,11 @@ export const HeroSection: React.FC = () => {
         }}
       >
         <motion.div style={{ opacity: contentOpacity }}>
-          {/* Eyebrow: 0.5s sequence */}
+          {/* STEP 4: Eyebrow: opacity 0 -> 1, y 25 -> 0 */}
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.35, ease: luxuryEase }}
           >
             <Box
               sx={{
@@ -217,45 +248,65 @@ export const HeroSection: React.FC = () => {
             </Box>
           </motion.div>
 
-          {/* Main Heading: 0.8s sequence */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Typography
-              variant="h1"
-              sx={{
-                color: heritageColors.parchment.pure,
-                fontSize: { xs: '2.4rem', sm: '3.6rem', md: '4.8rem', lg: '5.4rem' },
-                fontWeight: 800,
-                letterSpacing: '0.03em',
-                lineHeight: 1.12,
-                mb: { xs: 1.5, md: 2 },
-                textShadow: '0 4px 30px rgba(0,0,0,0.85)',
-              }}
+          {/* STEP 5: Main Heading Line-by-Line Reveal with Blur Dissolve */}
+          <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
+            <motion.div
+              initial={{ opacity: 0, y: 50, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, delay: 0.48, ease: luxuryEase }}
             >
-              Experience the Taste of <br />
-              <Box
-                component="span"
+              <Typography
+                variant="h1"
                 sx={{
-                  background: `linear-gradient(135deg, ${heritageColors.gold.pale} 0%, ${heritageColors.gold.main} 50%, ${heritageColors.gold.highlight} 100%)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  display: 'inline-block',
-                  fontFamily: '"Cinzel", Georgia, serif',
+                  color: heritageColors.parchment.pure,
+                  fontSize: { xs: '2.4rem', sm: '3.6rem', md: '4.8rem', lg: '5.4rem' },
+                  fontWeight: 800,
+                  letterSpacing: '0.03em',
+                  lineHeight: 1.12,
+                  textShadow: '0 4px 30px rgba(0,0,0,0.85)',
                 }}
               >
-                Maratha Heritage
-              </Box>
-            </Typography>
-          </motion.div>
+                Experience the Taste of
+              </Typography>
+            </motion.div>
 
-          {/* Marathi Quote: 0.6s sequence */}
+            <motion.div
+              initial={{ opacity: 0, y: 50, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, delay: 0.65, ease: luxuryEase }}
+            >
+              <Typography
+                variant="h1"
+                component="div"
+                sx={{
+                  fontSize: { xs: '2.4rem', sm: '3.6rem', md: '4.8rem', lg: '5.4rem' },
+                  fontWeight: 800,
+                  letterSpacing: '0.03em',
+                  lineHeight: 1.15,
+                  textShadow: '0 4px 30px rgba(0,0,0,0.85)',
+                }}
+              >
+                <Box
+                  component="span"
+                  sx={{
+                    background: `linear-gradient(135deg, ${heritageColors.gold.pale} 0%, ${heritageColors.gold.main} 50%, ${heritageColors.gold.highlight} 100%)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    display: 'inline-block',
+                    fontFamily: '"Cinzel", Georgia, serif',
+                  }}
+                >
+                  Maratha Heritage
+                </Box>
+              </Typography>
+            </motion.div>
+          </Box>
+
+          {/* STEP 6: Marathi Quote sequence */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55, ease: 'easeOut' }}
+            transition={{ duration: 0.65, delay: 0.82, ease: luxuryEase }}
           >
             <Typography
               component="p"
@@ -274,11 +325,11 @@ export const HeroSection: React.FC = () => {
             </Typography>
           </motion.div>
 
-          {/* Description: 0.6s sequence */}
+          {/* STEP 7: Supporting Description */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7, ease: 'easeOut' }}
+            transition={{ duration: 0.65, delay: 0.98, ease: luxuryEase }}
           >
             <Typography
               variant="body1"
@@ -298,11 +349,11 @@ export const HeroSection: React.FC = () => {
             </Typography>
           </motion.div>
 
-          {/* CTA Buttons: 0.5s stagger */}
+          {/* STEP 8: CTA Buttons with micro-interactions */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.85, ease: 'easeOut' }}
+            transition={{ duration: 0.55, delay: 1.12, ease: luxuryEase }}
           >
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
@@ -333,11 +384,11 @@ export const HeroSection: React.FC = () => {
             </Stack>
           </motion.div>
 
-          {/* Stats Bar: 0.7s sequence with staggered items */}
+          {/* STEP 9: Stats Bar with Animated Counter */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.0, ease: 'easeOut' }}
+            transition={{ duration: 0.7, delay: 1.28, ease: luxuryEase }}
           >
             <Grid
               container
@@ -371,7 +422,7 @@ export const HeroSection: React.FC = () => {
                   <StorefrontIcon sx={{ color: heritageColors.gold.highlight, fontSize: 24 }} />
                   <Box sx={{ textAlign: 'left' }}>
                     <Typography variant="body2" sx={{ color: heritageColors.parchment.pure, fontWeight: 700, fontSize: '0.85rem' }}>
-                      20+ Outlets
+                      <AnimatedCounter value={20} suffix="+ Outlets" />
                     </Typography>
                     <Typography variant="caption" sx={{ color: heritageColors.text.mutedLight, fontSize: '0.72rem' }}>
                       Across Maharashtra
@@ -414,7 +465,7 @@ export const HeroSection: React.FC = () => {
                   </Box>
                   <Box sx={{ textAlign: 'left' }}>
                     <Typography variant="body2" sx={{ color: heritageColors.parchment.pure, fontWeight: 700, fontSize: '0.85rem' }}>
-                      Visionary Founders
+                      <AnimatedCounter value={3} suffix=" Founders" />
                     </Typography>
                     <Typography variant="caption" sx={{ color: heritageColors.text.mutedLight, fontSize: '0.72rem' }}>
                       Karad Origins (1998)
@@ -425,43 +476,49 @@ export const HeroSection: React.FC = () => {
             </Grid>
           </motion.div>
 
-          {/* 5. Calmed Scroll Indicator */}
-          <Box
-            component="a"
-            href="#heritage-intro"
-            sx={{
-              display: 'inline-flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              mt: { xs: 4, md: 5 },
-              color: heritageColors.gold.pale,
-              textDecoration: 'none',
-              transition: 'all 0.3s ease',
-              opacity: 0.85,
-              '&:hover': {
-                color: heritageColors.gold.highlight,
-                opacity: 1,
-              },
-            }}
+          {/* STEP 10: Scroll Indicator with Smooth Ease In Out */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.45 }}
           >
-            <Typography
-              variant="caption"
+            <Box
+              component="a"
+              href="#heritage-intro"
               sx={{
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                fontSize: '0.7rem',
-                fontWeight: 600,
+                display: 'inline-flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                mt: { xs: 4, md: 5 },
+                color: heritageColors.gold.pale,
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                opacity: 0.88,
+                '&:hover': {
+                  color: heritageColors.gold.highlight,
+                  opacity: 1,
+                },
               }}
             >
-              Discover Our Story
-            </Typography>
-            <motion.div
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
-            >
-              <KeyboardArrowDownIcon sx={{ fontSize: 22, mt: 0.5, color: heritageColors.gold.highlight }} />
-            </motion.div>
-          </Box>
+              <Typography
+                variant="caption"
+                sx={{
+                  letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                }}
+              >
+                SCROLL TO DISCOVER
+              </Typography>
+              <motion.div
+                animate={{ y: [0, 7, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+              >
+                <KeyboardArrowDownIcon sx={{ fontSize: 24, mt: 0.5, color: heritageColors.gold.highlight }} />
+              </motion.div>
+            </Box>
+          </motion.div>
         </motion.div>
       </Container>
     </Box>

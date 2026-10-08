@@ -123,16 +123,37 @@ export const GalleryPreview: React.FC = () => {
               const isLarge = idx === 0 || idx === 3;
               const colSpan = isLarge ? { xs: 12, md: 7 } : { xs: 12, sm: 6, md: 5 };
 
+              // Coordinated editorial collage entrances: clip reveal, fade+scale, clip reveal, slide
+              const entranceType = idx % 4;
+              let initialAnim: Record<string, any> = { opacity: 0 };
+              let visibleAnim: Record<string, any> = { opacity: 1 };
+
+              if (entranceType === 0) {
+                initialAnim = { opacity: 0, clipPath: 'inset(0% 100% 0% 0%)', scale: 1.08 };
+                visibleAnim = { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', scale: 1 };
+              } else if (entranceType === 1) {
+                initialAnim = { opacity: 0, scale: 0.93, y: 30 };
+                visibleAnim = { opacity: 1, scale: 1, y: 0 };
+              } else if (entranceType === 2) {
+                initialAnim = { opacity: 0, clipPath: 'inset(100% 0% 0% 0%)', scale: 1.08 };
+                visibleAnim = { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', scale: 1 };
+              } else {
+                initialAnim = { opacity: 0, x: -40 };
+                visibleAnim = { opacity: 1, x: 0 };
+              }
+
               return (
                 <Grid size={colSpan} key={img.id}>
                   <motion.div
                     layout
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={initialAnim}
+                    whileInView={visibleAnim}
+                    viewport={{ once: true, margin: '-50px' }}
                     exit={{ opacity: 0, scale: 0.92 }}
-                    transition={{ duration: 0.45, delay: idx * 0.05 }}
+                    transition={{ duration: 0.85, delay: (idx % 3) * 0.12, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <Box
+                      data-cursor="view"
                       onClick={() => setLightboxIndex(idx)}
                       sx={{
                         position: 'relative',
@@ -141,12 +162,19 @@ export const GalleryPreview: React.FC = () => {
                         cursor: 'pointer',
                         border: `1px solid ${heritageColors.charcoal.border}`,
                         backgroundColor: heritageColors.charcoal.surface,
-                        transition: 'all 0.35s ease',
+                        transition: 'all 0.38s ease',
                         '&:hover .gallery-img': {
-                          transform: 'scale(1.04)',
+                          transform: 'scale(1.05)',
                         },
                         '&:hover .gallery-overlay': {
                           opacity: 1,
+                        },
+                        '&:hover .gallery-text-block': {
+                          transform: 'translateY(0)',
+                          opacity: 1,
+                        },
+                        '&:hover .gallery-gold-line': {
+                          width: 44,
                         },
                         '&:hover': {
                           borderColor: heritageColors.gold.highlight,
@@ -163,7 +191,7 @@ export const GalleryPreview: React.FC = () => {
                           width: '100%',
                           height: '100%',
                           objectFit: 'cover',
-                          transition: 'transform 0.7s cubic-bezier(0.2, 0, 0, 1)',
+                          transition: 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
                         }}
                       />
 
@@ -176,9 +204,9 @@ export const GalleryPreview: React.FC = () => {
                           left: 0,
                           right: 0,
                           bottom: 0,
-                          backgroundColor: 'rgba(14, 11, 9, 0.7)',
+                          backgroundColor: 'rgba(12, 10, 9, 0.72)',
                           opacity: 0,
-                          transition: 'opacity 0.3s ease',
+                          transition: 'opacity 0.38s ease',
                           display: 'flex',
                           flexDirection: 'column',
                           justifyContent: 'space-between',
@@ -204,7 +232,24 @@ export const GalleryPreview: React.FC = () => {
                           <ZoomInIcon sx={{ color: heritageColors.gold.highlight, fontSize: 24 }} />
                         </Box>
 
-                        <Box>
+                        <Box
+                          className="gallery-text-block"
+                          sx={{
+                            transform: 'translateY(20px)',
+                            opacity: 0,
+                            transition: 'all 0.38s cubic-bezier(0.22, 1, 0.36, 1)',
+                          }}
+                        >
+                          <Box
+                            className="gallery-gold-line"
+                            sx={{
+                              width: 0,
+                              height: '2px',
+                              backgroundColor: heritageColors.gold.highlight,
+                              mb: 1.2,
+                              transition: 'width 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+                            }}
+                          />
                           <Typography
                             variant="h6"
                             sx={{
@@ -260,7 +305,13 @@ export const GalleryPreview: React.FC = () => {
         }}
       >
         {activeLightbox && (
-          <Box sx={{ position: 'relative' }}>
+          <motion.div
+            initial={{ scale: 0.92, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.92, opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            style={{ position: 'relative' }}
+          >
             {/* Close Button */}
             <IconButton
               onClick={() => setLightboxIndex(null)}
@@ -370,7 +421,7 @@ export const GalleryPreview: React.FC = () => {
                 </Typography>
               )}
             </Box>
-          </Box>
+          </motion.div>
         )}
       </Dialog>
     </Box>

@@ -6,22 +6,36 @@ import { theme } from './theme/theme';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { ScrollProgress } from './components/common/ScrollProgress';
+import { CustomCursor } from './components/common/CustomCursor';
+import { VersionSwitcher } from './components/common/VersionSwitcher';
 import { HomePage } from './pages/HomePage';
+import { HomePageV2 } from './pages/HomePageV2';
+
+// Version 1 Container (Preserved exactly as is)
+const Version1Page: React.FC = () => (
+  <ThemeProvider theme={theme}>
+    <Navbar />
+    <HomePage />
+    <Footer />
+  </ThemeProvider>
+);
 
 export const App: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <BrowserRouter>
       <CssBaseline />
       <ScrollProgress />
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={<HomePage />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </ThemeProvider>
+      <CustomCursor />
+      <Routes>
+        <Route path="/" element={<Version1Page />} />
+        <Route path="/v1" element={<Version1Page />} />
+        <Route path="/version-1" element={<Version1Page />} />
+        <Route path="/v2" element={<HomePageV2 />} />
+        <Route path="/version-2" element={<HomePageV2 />} />
+        <Route path="*" element={<Version1Page />} />
+      </Routes>
+      <VersionSwitcher />
+    </BrowserRouter>
   );
 };
 
