@@ -1,0 +1,68 @@
+import type { GalleryImage } from '../types';
+
+export const galleryData: GalleryImage[] = [
+  {
+    id: 'gal-1',
+    title: 'The Royal Dhaba Experience',
+    marathiTitle: 'मराठमोळी ढाबा संस्कृती',
+    category: 'Experience',
+    imageUrl: '/images/gallery/gallery_1.png',
+    caption: 'Families enjoying authentic Maharashtrian hospitality in a warm, welcoming setting.',
+  },
+  {
+    id: 'gal-2',
+    title: 'Heritage Courtyard Dining',
+    marathiTitle: 'राजेशाही अंगण व भोजन',
+    category: 'Ambiance',
+    imageUrl: '/images/maratha_palace_hero.jpg',
+    caption: 'Architecture inspired by Maharashtra fort ramparts, warm mashaals, and stone carvings.',
+  },
+  {
+    id: 'gal-3',
+    title: 'Master Kitchen & Woodfire Tawa',
+    marathiTitle: 'अस्सल लाकडी चुलीची चव',
+    category: 'Food',
+    imageUrl: '/images/gallery/gallery_2.png',
+    caption: 'Artisanal chefs hand-patting hot jowar bhakris and slow-simmering brass handis.',
+  },
+  {
+    id: 'gal-4',
+    title: 'Grand Statue of Chhatrapati Shivaji Maharaj',
+    marathiTitle: 'छत्रपती शिवाजी महाराज स्मारक',
+    category: 'Heritage',
+    imageUrl: '/images/maharaj_statue.png',
+    caption: 'Revered bronze sculpture honoring Chhatrapati Shivaji Maharaj at our Karad location.',
+  },
+  {
+    id: 'gal-5',
+    title: 'Iconic Akkha Masoor Table Presentation',
+    marathiTitle: 'नादखुळा अख्खा मसूर थाळी',
+    category: 'Food',
+    imageUrl: '/images/signature_akkha_masur.jpg',
+    caption: 'Prepared in hammered brass and served on fresh banana leaf with accompaniments.',
+  },
+  {
+    id: 'gal-6',
+    title: 'Family & Celebration Dining Hall',
+    marathiTitle: 'कुटुंब व सोहळा हॉल',
+    category: 'Ambiance',
+    imageUrl: '/images/gallery/gallery_3.png',
+    caption: 'Fully air-conditioned spacious dining designed for family gatherings and wedding halts.',
+  },
+  {
+    id: 'gal-7',
+    title: 'Traditional Earthen Matka Curd',
+    marathiTitle: 'मातीच्या मडक्यातील पांढरे गार दही',
+    category: 'Food',
+    imageUrl: '/images/gallery/carousel_2.png',
+    caption: 'Pure buffalo milk cultured naturally in red clay pots for that soothing creamy taste.',
+  },
+  {
+    id: 'gal-8',
+    title: 'The Heritage Welcome Gateway',
+    marathiTitle: 'भव्य प्रवेशद्वार व आदरातिथ्य',
+    category: 'Heritage',
+    imageUrl: '/images/gallery/gallery_4.png',
+    caption: 'Carved fort gateways welcoming highway travelers across Maharashtra.',
+  },
+];
